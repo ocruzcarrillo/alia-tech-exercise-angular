@@ -1,0 +1,36 @@
+<div class="button-row">
+  <a mat-raised-button color="primary" (click)="gymDetails()"><mat-icon>show</mat-icon></a>
+</div>
+<form [formGroup]="gymForm" (ngSubmit)="onFormSubmit(gymForm.value)">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Code" formControlName="code"
+           [errorStateMatcher]="matcher">
+    <mat-error>
+      <span *ngIf="!gymForm.get('code').valid && gymForm.get('code').touched">Please enter Gym Code</span>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Name" formControlName="name"
+           [errorStateMatcher]="matcher">
+    <mat-error>
+      <span *ngIf="!gymForm.get('name').valid && gymForm.get('name').touched">Please enter Gym Name</span>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="Owner" formControlName="owner"
+           [errorStateMatcher]="matcher">
+    <mat-error>
+      <span *ngIf="!gymForm.get('owner').valid && gymForm.get('owner').touched">Please enter Gym Owner</span>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="Services" formControlName="services"
+           [errorStateMatcher]="matcher"></textarea>
+    <mat-error>
+      <span *ngIf="!gymForm.get('services').valid && gymForm.get('services').touched">Please enter Gym Services</span>
+    </mat-error>
+  </mat-form-field>
+  <div class="button-row">
+    <button type="submit" onclick="ws_editGym();" [disabled]="!gymForm.valid" mat-raised-button color="primary"><mat-icon>save</mat-icon></button>
+  </div>
+</form>

@@ -2,11 +2,71 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>MeanAngular6</title>
+  <title>ISC Omar Cruz Carrillo - Alia Tech Excersice</title>
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script>
+  
+	var ws;
+	var SERVER_URL = 'wss://p2pfo5t498.execute-api.us-east-1.amazonaws.com/gyms';
+
+	function connect() {
+		ws = new WebSocket(SERVER_URL, []);
+		ws.onmessage = handleMessageReceived;
+		ws.onopen = handleConnected;
+		ws.onerror = handleError;
+	}
+
+	function handleMessageReceived(data) {
+		logMessage(data.data);
+		
+		var msg = JSON.parse(data.data);
+		
+		try {
+			msg = JSON.parse(msg);
+		} catch(err) {}
+		
+		if (msg['option'] == 'delete') {
+			window.location.href = "/gyms";
+		}
+	}
+
+	function handleConnected(data) {
+		var logMsg = 'Connected to server: ' + data.target.url;
+		logMessage(logMsg);
+	}
+
+	function handleError(err) {
+		console.log("Error: ", err);
+	}
+
+	function logMessage(msg) {
+		console.log("logMessage", msg);
+	}
+
+	function ws_createGym() {
+		console.log("create");
+		ws.send(JSON.stringify({"action": "gyms", "option":"add", "id": "all"}));
+	}
+	
+	function ws_editGym() {
+		console.log("edit");
+		ws.send(JSON.stringify({"action": "gyms", "option":"edit", "id": "all"}));
+	}
+	
+	function ws_deleteGym(id) {
+		console.log("deleteGym", id);
+		ws.send(JSON.stringify({"action": "gyms", "option":"delete", "id": id}));
+	}
+	
+	connect();
+  
+  </script>
 </head>
 <body>
   <app-root></app-root>
